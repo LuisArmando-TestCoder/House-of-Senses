@@ -1,8 +1,10 @@
-import React from 'react'
-import * as Components from '../components'
+import React from "react"
+import { GlobalWrapper, Canvas3D } from "../components/strings"
 
 export default () => {
-    return (
-        <Components.strings.Canvas id='main'/>
-    )
+  return (
+    <GlobalWrapper title='Scenes | Home'>
+      <Canvas3D id="home" scenes={["home"]}/>
+    </GlobalWrapper>
+  )
 }

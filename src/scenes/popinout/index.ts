@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import presetScene, { consulters, types, actions } from "scene-preset";
+import presetScene, { consulters } from "scene-preset";
 import scene from "./scene";
 
 let sceneEvents: {
@@ -9,27 +9,14 @@ let sceneEvents: {
 };
 
 export default (id: string) =>
-  presetScene(
-    {
-      async setup(canvasState: { [index: string]: any }) {
-        sceneEvents = await consulters.getSceneLifeCycle(scene);
-
-        sceneEvents?.onSetup(canvasState);
-
-        if (canvasState.camera) {
-          canvasState.camera.position.z = -5;
-        }
-
-        // actions.blacklistControls([
-        //   "setCanvasAutoFocus",
-        //   "setFirstPersonDirection",
-        //   "setFirstPersonFlying",
-        //   "setFirstPersonZoom",
-        // ]);
-      },
-      animate(canvasState: { [index: string]: any }) {
-        sceneEvents?.onAnimation(canvasState);
-      },
+presetScene(
+  {
+    async setup(canvasState: { [index: string]: any }) {
+      sceneEvents = await consulters.getSceneLifeCycle(scene);
     },
-    `#${id}`
-  );
+    animate(canvasState: { [index: string]: any }) {
+      sceneEvents?.onAnimation(canvasState);
+    },
+  },
+  `#${id}`
+);

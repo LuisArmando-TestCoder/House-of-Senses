@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import callScenes3D from './callScenes3D'
 import './styles.scss'
 
-const Component = ({ scenes, className = '', id }: {
+const Canvas3D = ({ scenes, className = '', id }: {
     scenes: string[]
     id: string
     className?: string
@@ -16,4 +16,4 @@ const Component = ({ scenes, className = '', id }: {
     )
 }
 
-export default Component
+export default Canvas3D
