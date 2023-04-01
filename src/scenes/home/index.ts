@@ -57,15 +57,13 @@ export default (id: string) =>
         });
       },
       animate(canvasState: { [index: string]: any }) {
-        // actions.blacklistObjects({
-        //   scene: canvasState.scene as THREE.Scene,
-        //   blacklist: [
-            // "SimpleFloor",
-            // "SimpleCube",
-            // "SimpleSphere",
-            // "SimpleLightSet",
-        //   ],
-        // });
+        actions.blacklistObjects({
+          scene: canvasState.scene as THREE.Scene,
+          blacklist: [
+            "SimpleFloor",
+            "SimpleLightSet",
+          ],
+        });
       },
     },
     `#${id}`
