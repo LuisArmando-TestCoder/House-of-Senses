@@ -1,0 +1,49 @@
+.controls {
+  pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: monospace;
+  color: white;
+  text-transform: uppercase;
+  display: flex;
+  justify-items: stretch;
+
+  &__keys {
+    transition: 1s;
+    width: 100%;
+    display: inline-flex;
+    place-content: center;
+  }
+
+  &__used {
+    width: 0;
+  }
+
+  &__key {
+    transition: 1s;
+    width: 100%;
+    text-align: center;
+    border: 1px solid white;
+    border-width: 0 0 1px 0;
+    padding: 5px 10px;
+    margin-right: 10px;
+    opacity: 1;
+    text-shadow: 0 0 5px white;
+    box-shadow: inset 0 0 0 white;
+
+    &--pressed {
+        transition: .1s;
+        box-shadow: inset 0 -30px 30px -30px white;
+    }
+
+    &--used {
+      width: 0;
+      padding: 0;
+      margin-right: 0;
+      overflow: hidden;
+      opacity: 0;
+    }
+  }
+}

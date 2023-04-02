@@ -2,13 +2,8 @@
  * @todo there should be three canvases on each extreme
  */
 
-import * as THREE from "three"
-import { consulters } from "scene-preset"
-import { CanvasState } from "scene-preset/lib/types/state"
-import { Scene, Scenes, SceneExport } from "scene-preset/lib/types/consulters"
+import { Scenes } from "scene-preset/lib/types/consulters"
 
-import Image from "../../meshes/Image"
-import PointLightSet from "../../meshes/PointLightSet"
 import getPathPositions from "./getPathPositions"
 import getGalleryPath from "./getGalleryPath"
 import getGalleryCanvases from "./getGalleryCanvases"

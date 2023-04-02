@@ -14,7 +14,7 @@ type LaneName =
   | "corner0"
   | "corner1"
 
-export default function getCanvases({ pathPositions, pathSize, getImage, displacement }) {
+export default function getCanvases({ pathPositions, pathSize, getImage, displacement, inverseDistanceToRender = 0.02 }) {
   return {
     canvases: ({
       object: () =>
@@ -86,6 +86,7 @@ export default function getCanvases({ pathPositions, pathSize, getImage, displac
 
           mesh.material.transparent = true
           mesh.material.opacity = Math.min(1, 1 / (distanceToUser / 10) ** 2)
+          mesh.material.visible = mesh.material.opacity > inverseDistanceToRender
         })
       },
     } as unknown) as Scene,
