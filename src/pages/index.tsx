@@ -1,13 +1,10 @@
 import React from "react"
-import { GlobalWrapper, Canvas3D, Controls } from "../components/strings"
+import  * as Components from "../components"
 
 export default () => {
   return (
-    <GlobalWrapper title='Scenes | Home'>
-      <Canvas3D id="home" scenes={["home", "gallery"]}/>
-      <Controls permanentKeys={{
-        m: []
-      }}/>
-    </GlobalWrapper>
+    <Components.strings.GlobalWrapper title="Scenes | Home">
+      <Components.atoms.InteractiveArtCanvas/>
+    </Components.strings.GlobalWrapper>
   )
 }

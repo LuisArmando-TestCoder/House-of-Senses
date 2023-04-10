@@ -1,0 +1,35 @@
+.wheel-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0008;
+  opacity: 1;
+  transition: 0.3s;
+
+  &--hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .wheel-menu__position {
+    position: absolute;
+    left: calc(50vw - 125px / 2);
+    top: calc(50vh - 42px);
+  }
+
+  .parallelogram {
+    svg path {
+      transition: 0.3s;
+    }
+
+    &--hover {
+      z-index: 1;
+
+      svg path {
+        fill: #5c3fff;
+      }
+    }
+  }
+}

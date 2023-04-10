@@ -25,18 +25,19 @@ export default ({
         ? document.getElementById(canvasId)
         : document.getElementsByTagName("canvas")[0]
 
+      setUnusedPressedPermanentKeys({
+        permanentKeys,
+        unpressedPermanentKeys,
+        setUnpressedPermanentKeys,
+        key,
+      })
+
       if (canvas !== document.activeElement) return
 
       setUnusedPressedOneTimeKeys({
         oneTimeKeys,
         unusedOneTimeKeys,
         setUnusedOneTimeKeys,
-        key,
-      })
-      setUnusedPressedPermanentKeys({
-        permanentKeys,
-        unpressedPermanentKeys,
-        setUnpressedPermanentKeys,
         key,
       })
     })
@@ -99,7 +100,7 @@ function setUnusedPressedPermanentKeys({
     unpressedPermanentKeys.push(key)
     setUnpressedPermanentKeys([...unpressedPermanentKeys])
   }, 1e3)
-  permanentKeys[key].forEach(element => element())
+  permanentKeys[key]?.forEach(element => element())
 }
 
 function setUnusedPressedOneTimeKeys({
@@ -114,5 +115,5 @@ function setUnusedPressedOneTimeKeys({
 
   unusedOneTimeKeys.splice(unusedKeyIndex, 1)
   setUnusedOneTimeKeys([...unusedOneTimeKeys])
-  oneTimeKeys[key].forEach(element => element())
+  oneTimeKeys[key]?.forEach(element => element())
 }

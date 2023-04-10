@@ -4,6 +4,7 @@ import  CanvasShader from './CanvasShader'
 import  Controls from './Controls'
 import  GlobalWrapper from './GlobalWrapper'
 import  Hello from './Hello'
+import  WheelParallelogramMenu from './WheelParallelogramMenu'
 
 export {
    Canvas,
@@ -12,4 +13,5 @@ export {
    Controls,
    GlobalWrapper,
    Hello,
+   WheelParallelogramMenu,
 }
