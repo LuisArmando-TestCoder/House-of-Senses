@@ -8,9 +8,17 @@ type ParallelogramsWheelMenuSetup = {
   height: number
 }
 
+type Position = "static" | "relative" | "absolute" | "sticky" | "fixed"
+
 interface Props extends ParallelogramsWheelMenuSetup {
   isMenuOpen: boolean
-  offset: number
+  offset?: number
+  menu?: {
+    icon: string
+    name: string
+    action: Function
+  }[]
+  onOptionSelected?: Function
 }
 
 type ParallelogramMenuOption = {
@@ -20,18 +28,31 @@ type ParallelogramMenuOption = {
   left: string
 }
 
+type EventListenerTrigger = (
+  this: Window,
+  ev: WindowEventMap[keyof WindowEventMap]
+) => any
+
 const ParallelogramsWheelMenu: React.FC<Props> = ({
-  itemsAmount,
-  distance,
-  width,
-  height,
+  itemsAmount = 8,
+  distance = 110,
+  width = 140,
+  height = 85,
   isMenuOpen,
-  offset,
+  offset = 3,
+  menu = [...new Array(8)].map(() => ({
+    icon: "",
+    name: "",
+    action: () => 0,
+  })),
+  onOptionSelected = () => 0,
 }: Props) => {
   const parallelogramWheelMenuOptionsRef = useRef()
   const { clipPath, pathData } = getParallelogramData(width, height)
   useEffect(() => {
-    const onMouseMove = (event: MouseEvent) => {
+    let menuIndex
+
+    const mousemove = (event: MouseEvent) => {
       const parallelogramChildren = ((parallelogramWheelMenuOptionsRef.current as unknown) as HTMLElement)
         ?.children?.[0]?.children
       if (!parallelogramChildren) return
@@ -56,12 +77,30 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
       parallelograms[index].style.transform = `scale(${
         1 + Math.log(distanceToCenterOfScreen) / 40
       })`
+      menuIndex = index
     }
 
-    window.addEventListener("mousemove", onMouseMove)
+    const click = () => {
+      if (!isMenuOpen) return
+
+      menu[menuIndex].action()
+      onOptionSelected(menu[menuIndex])
+    }
+
+    const events = Object.entries({ click, mousemove } as const)
+    const setEvents = (typeofListener: "add" | "remove") => {
+      events.forEach(([eventName, functionValue]) => {
+        window[`${typeofListener}EventListener`](
+          eventName as keyof WindowEventMap,
+          functionValue as EventListenerTrigger
+        )
+      })
+    }
+
+    setEvents("add")
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove)
+      setEvents("remove")
     }
   }, [itemsAmount, distance, width, height])
 
@@ -85,12 +124,7 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
             <div
               key={index}
               style={{
-                position: position as
-                  | "static"
-                  | "relative"
-                  | "absolute"
-                  | "sticky"
-                  | "fixed",
+                position: position as Position,
                 top,
                 left,
               }}

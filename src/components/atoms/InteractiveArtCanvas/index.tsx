@@ -6,7 +6,7 @@ import {
   WheelParallelogramMenu,
 } from "../../strings"
 
-let isReallyMenuOpen = true;
+let isReallyMenuOpen = true
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(isReallyMenuOpen)
@@ -16,7 +16,7 @@ export default () => {
       <Canvas3D id="home" scenes={["home", "gallery"]} />
       <Controls
         permanentKeys={{
-          m: [switchMenu(isMenuOpen, setIsMenuOpen)],
+          m: [switchMenu(setIsMenuOpen)],
         }}
       />
       <WheelParallelogramMenu
@@ -26,15 +26,16 @@ export default () => {
         height={85}
         offset={3}
         isMenuOpen={isMenuOpen}
+        onOptionSelected={switchMenu(setIsMenuOpen)}
       />
     </GlobalWrapper>
   )
 }
 
-function switchMenu(isMenuOpen, setIsMenuOpen) {
+function switchMenu(setIsMenuOpen) {
   return () => {
-	// react bug: re-render initialized the state as the same instead of changing
+    // react bug: re-render initialized the state as the same instead of changing
     setIsMenuOpen(!isReallyMenuOpen)
-	isReallyMenuOpen = !isReallyMenuOpen;
+    isReallyMenuOpen = !isReallyMenuOpen
   }
 }
