@@ -31,5 +31,11 @@
         fill: #5c3fff;
       }
     }
+
+    &--active {
+      svg path {
+        fill: #f8f8f8;
+      }
+    }
   }
 }

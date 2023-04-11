@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   font-family: monospace;
-  color: white;
+  color: #e9e9e9;
   text-transform: uppercase;
   display: flex;
   justify-items: stretch;
@@ -22,20 +22,20 @@
   }
 
   &__key {
+    user-select: none;
     transition: 1s;
     width: 100%;
     text-align: center;
-    border: 1px solid white;
-    border-width: 0 0 1px 0;
+    border-bottom: 1px solid #e9e9e9;
     padding: 5px 10px;
     margin-right: 10px;
     opacity: 1;
     text-shadow: 0 0 5px white;
-    box-shadow: inset 0 0 0 white;
+    box-shadow: inset 0 0 0 #0008;
 
     &--pressed {
-        transition: .1s;
-        box-shadow: inset 0 -30px 30px -30px white;
+      transition: 0.1s;
+      box-shadow: inset 0 -30px 30px -30px white;
     }
 
     &--used {

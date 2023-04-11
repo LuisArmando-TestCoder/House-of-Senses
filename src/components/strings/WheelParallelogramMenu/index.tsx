@@ -40,72 +40,118 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
   height = 85,
   isMenuOpen,
   offset = 3,
-  menu = [...new Array(8)].map(() => ({
+  menu = [...new Array(8)].map((_, i) => ({
     icon: "",
     name: "",
-    action: () => 0,
+    action: () => console.log(i),
   })),
   onOptionSelected = () => 0,
 }: Props) => {
   const parallelogramWheelMenuOptionsRef = useRef()
   const { clipPath, pathData } = getParallelogramData(width, height)
   useEffect(() => {
-    let menuIndex
+    // const events = Object.entries({ mousemove, mousedown, mouseup } as const)
+    // const setEvents = (typeofListener: "add" | "remove") => {
+    //   events.forEach(([eventName, functionValue]) => {
+    //     window[`${typeofListener}EventListener`](
+    //       eventName as keyof WindowEventMap,
+    //       functionValue as EventListenerTrigger
+    //     )
+    //   })
+    // }
+    // setEvents("add")
+    // return () => {
+    //   setEvents("remove")
+    // }
+  }, [])
+  let menuIndex
+  let isMouseDown
 
-    const mousemove = (event: MouseEvent) => {
-      const parallelogramChildren = ((parallelogramWheelMenuOptionsRef.current as unknown) as HTMLElement)
-        ?.children?.[0]?.children
-      if (!parallelogramChildren) return
+  const mousemove = (event: MouseEvent) => {
+    const parallelograms = getParallelograms(parallelogramWheelMenuOptionsRef)
 
-      const parallelograms = [...parallelogramChildren] as HTMLElement[]
+    if (!parallelograms) return
 
-      parallelograms.forEach(parallelogram => {
-        parallelogram.classList.remove("parallelogram--hover")
-        parallelogram.style.transform = "scale(1)"
-      })
+    parallelograms.forEach(parallelogram => {
+      parallelogram.classList.remove("parallelogram--hover")
+      parallelogram.style.transform = "scale(1)"
+    })
 
-      if (!isMenuOpen) return
+    if (!isMenuOpen) return
 
-      const { index, distanceToCenterOfScreen } = getParallelogramUtils({
-        event,
-        parallelograms,
-        itemsAmount,
-        offset,
-      })
+    const { index, distanceToCenterOfScreen } = getParallelogramUtils({
+      event,
+      parallelograms,
+      itemsAmount,
+      offset,
+    })
+    parallelograms[index].classList.add("parallelogram--hover")
+    parallelograms[index].style.transform = `scale(${
+      1 + Math.log(distanceToCenterOfScreen) / 40
+    })`
 
-      parallelograms[index].classList.add("parallelogram--hover")
-      parallelograms[index].style.transform = `scale(${
-        1 + Math.log(distanceToCenterOfScreen) / 40
-      })`
-      menuIndex = index
+    if (menuIndex === index) return
+
+    parallelograms[menuIndex]?.classList.remove("parallelogram--active")
+
+    menuIndex = index
+
+    if (isMouseDown) {
+      parallelograms[menuIndex]?.classList.add("parallelogram--active")
     }
+  }
 
-    const click = () => {
-      if (!isMenuOpen) return
+  const mousedown = (event: MouseEvent) => {
+    isMouseDown = true
 
-      menu[menuIndex].action()
-      onOptionSelected(menu[menuIndex])
-    }
+    if (!isMenuOpen) return
 
-    const events = Object.entries({ click, mousemove } as const)
-    const setEvents = (typeofListener: "add" | "remove") => {
-      events.forEach(([eventName, functionValue]) => {
-        window[`${typeofListener}EventListener`](
-          eventName as keyof WindowEventMap,
-          functionValue as EventListenerTrigger
-        )
-      })
-    }
+    const parallelograms = getParallelograms(parallelogramWheelMenuOptionsRef)
 
-    setEvents("add")
+    const { index } = getParallelogramUtils({
+      event,
+      parallelograms,
+      itemsAmount,
+      offset,
+    })
 
-    return () => {
-      setEvents("remove")
-    }
-  }, [itemsAmount, distance, width, height])
+    parallelograms?.[menuIndex || index].classList.add("parallelogram--active")
+  }
+
+  const mouseup = (event: MouseEvent) => {
+    isMouseDown = false
+
+    if (!isMenuOpen) return
+
+    const parallelograms = getParallelograms(parallelogramWheelMenuOptionsRef)
+
+    parallelograms?.forEach(parallelogram => {
+      parallelogram.classList.remove("parallelogram--active")
+    })
+
+    const { index } = getParallelogramUtils({
+      event,
+      parallelograms,
+      itemsAmount,
+      offset,
+    })
+
+    menu[menuIndex || index].action()
+    onOptionSelected(menu[menuIndex || index])
+  }
 
   return (
     <div
+      onMouseDown={
+        (mousedown as unknown) as React.MouseEventHandler<HTMLDivElement>
+      }
+      onMouseUp={
+        (mouseup as unknown) as React.MouseEventHandler<HTMLDivElement>
+      }
+      onMouseMove={
+        (mousemove as unknown) as React.MouseEventHandler<HTMLDivElement>
+      }
+      tabIndex={0}
       className={`wheel-menu ${isMenuOpen || "wheel-menu--hide"}`}
       ref={
         (parallelogramWheelMenuOptionsRef as unknown) as
@@ -153,6 +199,18 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
       </div>
     </div>
   )
+}
+
+function getParallelograms(
+  parallelogramWheelMenuOptionsRef: React.MutableRefObject<undefined>
+): HTMLElement[] | undefined {
+  const parallelogramChildren = ((parallelogramWheelMenuOptionsRef.current as unknown) as HTMLElement)
+    ?.children?.[0]?.children
+  if (!parallelogramChildren) return
+
+  const parallelograms = [...parallelogramChildren] as HTMLElement[]
+
+  return parallelograms
 }
 
 function getParallelogramUtils({ event, parallelograms, itemsAmount, offset }) {
