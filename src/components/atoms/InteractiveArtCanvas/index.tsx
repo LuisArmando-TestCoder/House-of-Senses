@@ -5,14 +5,32 @@ import {
   Controls,
   WheelParallelogramMenu,
 } from "../../strings"
+import {
+  faPenNib,
+  faCode,
+  faPaintBrush,
+  faBook,
+  faShapes,
+  faMusic,
+  faPerson,
+  faLink
+} from "@fortawesome/free-solid-svg-icons"
 
 let isReallyMenuOpen = true
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(isReallyMenuOpen)
 
+  useEffect(() => {
+    window.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isReallyMenuOpen) {
+        switchMenu(setIsMenuOpen)()
+      }
+    })
+  }, [])
+
   return (
-    <GlobalWrapper title="Scenes | Home">
+    <>
       <Canvas3D id="home" scenes={["home", "gallery"]} />
       <Controls
         permanentKeys={{
@@ -26,9 +44,51 @@ export default () => {
         height={85}
         offset={3}
         isMenuOpen={isMenuOpen}
+        menu={[
+          {
+            icon: faPenNib,
+            name: "Poems",
+            action: () => {},
+          },
+          {
+            icon: faPaintBrush,
+            name: "Art",
+            action: () => {},
+          },
+          {
+            icon: faCode,
+            name: "Shaders",
+            action: () => {},
+          },
+          {
+            icon: faShapes,
+            name: "Scenes",
+            action: () => {},
+          },
+          {
+            icon: faBook,
+            name: "Essays",
+            action: () => {},
+          },
+          {
+            icon: faMusic,
+            name: "Songs",
+            action: () => {},
+          },
+          {
+            icon: faPerson,
+            name: "Contact",
+            action: () => {},
+          },
+          {
+            icon: faLink,
+            name: "Projects",
+            action: () => {},
+          },
+        ]}
         onOptionSelected={switchMenu(setIsMenuOpen)}
       />
-    </GlobalWrapper>
+    </>
   )
 }
 

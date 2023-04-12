@@ -8,6 +8,10 @@
   opacity: 1;
   transition: 0.3s;
 
+  .menu-button {
+    position: relative;
+  }
+
   &--hide {
     opacity: 0;
     pointer-events: none;
@@ -33,6 +37,21 @@
     }
 
     &--active {
+      svg path {
+        fill: #f8f8f8;
+      }
+
+      .parallelogram__icon svg path {
+        fill: #5c3fff;
+      }
+    }
+
+    &__icon {
+      position: relative;
+      z-index: 2;
+      color: #f8f8f8;
+      display: inline-block;
+
       svg path {
         fill: #f8f8f8;
       }

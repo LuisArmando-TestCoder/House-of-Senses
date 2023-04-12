@@ -1,4 +1,6 @@
 import React, { LegacyRef, useEffect, useRef } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import "./styles.scss"
 
 type ParallelogramsWheelMenuSetup = {
@@ -14,7 +16,7 @@ interface Props extends ParallelogramsWheelMenuSetup {
   isMenuOpen: boolean
   offset?: number
   menu?: {
-    icon: string
+    icon: IconDefinition | null
     name: string
     action: Function
   }[]
@@ -41,7 +43,7 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
   isMenuOpen,
   offset = 3,
   menu = [...new Array(8)].map((_, i) => ({
-    icon: "",
+    icon: null,
     name: "",
     action: () => console.log(i),
   })),
@@ -49,21 +51,6 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
 }: Props) => {
   const parallelogramWheelMenuOptionsRef = useRef()
   const { clipPath, pathData } = getParallelogramData(width, height)
-  useEffect(() => {
-    // const events = Object.entries({ mousemove, mousedown, mouseup } as const)
-    // const setEvents = (typeofListener: "add" | "remove") => {
-    //   events.forEach(([eventName, functionValue]) => {
-    //     window[`${typeofListener}EventListener`](
-    //       eventName as keyof WindowEventMap,
-    //       functionValue as EventListenerTrigger
-    //     )
-    //   })
-    // }
-    // setEvents("add")
-    // return () => {
-    //   setEvents("remove")
-    // }
-  }, [])
   let menuIndex
   let isMouseDown
 
@@ -136,7 +123,7 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
       offset,
     })
 
-    menu[menuIndex || index].action()
+    menu[menuIndex || index]?.action?.()
     onOptionSelected(menu[menuIndex || index])
   }
 
@@ -176,12 +163,24 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
               }}
               className="parallelogram"
             >
+              <span
+                className="parallelogram__icon"
+                style={{
+                  top: `${Math.min(width, height) / 1.5}px`,
+                  left: `${Math.min(width, height) / 2}px`,
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={menu[index]?.icon as IconDefinition}
+                  width={Math.min(width, height) / 2}
+                  height={Math.min(width, height) / 2}
+                />
+              </span>
               <svg
                 style={{
                   transform,
                   clipPath,
                 }}
-                className="menu-button"
                 width={width * 0.9}
                 height={height}
               >
@@ -218,7 +217,7 @@ function getParallelogramUtils({ event, parallelograms, itemsAmount, offset }) {
   const dy = event.clientY - window.innerHeight / 2
   const distanceToCenterOfScreen = Math.sqrt(dx * dx + dy * dy)
   let index = 0
-  let deg = Math.atan2(dy, dx) + 0.625 * Math.PI
+  let deg = Math.atan2(dy, dx) + (5 / itemsAmount) * Math.PI
 
   while (deg < 0) deg += Math.PI * 2
 
