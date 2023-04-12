@@ -23,6 +23,18 @@
     top: calc(50vh - 42px);
   }
 
+  &:active {
+    .parallelogram--hover {
+      svg path {
+        fill: #f8f8f8;
+      }
+
+      .parallelogram__icon svg path {
+        fill: #5c3fff;
+      }
+    }
+  }
+
   .parallelogram {
     svg path {
       transition: 0.3s;
@@ -32,16 +44,6 @@
       z-index: 1;
 
       svg path {
-        fill: #5c3fff;
-      }
-    }
-
-    &--active {
-      svg path {
-        fill: #f8f8f8;
-      }
-
-      .parallelogram__icon svg path {
         fill: #5c3fff;
       }
     }

@@ -47,7 +47,7 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
     name: "",
     action: () => console.log(i),
   })),
-  onOptionSelected = () => 0,
+  onOptionSelected = () => console.log("Option Selected"),
 }: Props) => {
   const parallelogramWheelMenuOptionsRef = useRef()
   const { clipPath, pathData } = getParallelogramData(width, height)
@@ -77,15 +77,15 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
       1 + Math.log(distanceToCenterOfScreen) / 40
     })`
 
-    if (menuIndex === index) return
+    // if (menuIndex === index) return
 
-    parallelograms[menuIndex]?.classList.remove("parallelogram--active")
+    // parallelograms[menuIndex]?.classList.remove("parallelogram--active")
 
-    menuIndex = index
+    // menuIndex = index
 
-    if (isMouseDown) {
-      parallelograms[menuIndex]?.classList.add("parallelogram--active")
-    }
+    // if (isMouseDown) {
+    //   parallelograms[menuIndex]?.classList.add("parallelogram--active")
+    // }
   }
 
   const mousedown = (event: MouseEvent) => {
@@ -102,7 +102,14 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
       offset,
     })
 
-    parallelograms?.[menuIndex || index].classList.add("parallelogram--active")
+    if (!parallelograms) return
+
+    parallelograms.forEach(parallelogram => {
+      parallelogram.classList.remove("parallelogram--hover")
+      parallelogram.style.transform = "scale(1)"
+    })
+
+    // parallelograms?.[menuIndex || index].classList.add("parallelogram--active")
   }
 
   const mouseup = (event: MouseEvent) => {
@@ -112,9 +119,9 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
 
     const parallelograms = getParallelograms(parallelogramWheelMenuOptionsRef)
 
-    parallelograms?.forEach(parallelogram => {
-      parallelogram.classList.remove("parallelogram--active")
-    })
+    // parallelograms?.forEach(parallelogram => {
+    //   parallelogram.classList.remove("parallelogram--active")
+    // })
 
     const { index } = getParallelogramUtils({
       event,
@@ -125,6 +132,10 @@ const ParallelogramsWheelMenu: React.FC<Props> = ({
 
     menu[menuIndex || index]?.action?.()
     onOptionSelected(menu[menuIndex || index])
+
+    // parallelograms?.forEach(parallelogram => {
+    //   parallelogram.classList.remove("parallelogram--active")
+    // })
   }
 
   return (

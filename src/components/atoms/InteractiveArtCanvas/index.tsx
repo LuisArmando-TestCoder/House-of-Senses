@@ -13,21 +13,13 @@ import {
   faShapes,
   faMusic,
   faPerson,
-  faLink
+  faLink,
 } from "@fortawesome/free-solid-svg-icons"
 
 let isReallyMenuOpen = true
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(isReallyMenuOpen)
-
-  useEffect(() => {
-    window.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isReallyMenuOpen) {
-        switchMenu(setIsMenuOpen)()
-      }
-    })
-  }, [])
 
   return (
     <>
@@ -93,7 +85,8 @@ export default () => {
 }
 
 function switchMenu(setIsMenuOpen) {
-  return () => {
+  return (_) => {
+    console.log(_)
     // react bug: re-render initialized the state as the same instead of changing
     setIsMenuOpen(!isReallyMenuOpen)
     isReallyMenuOpen = !isReallyMenuOpen
