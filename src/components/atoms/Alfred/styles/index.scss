@@ -1,0 +1,12 @@
+@import './helpers/variables';
+@import './helpers/reset';
+@import './helpers/global';
+@import './helpers/util-classes';
+
+@import './components/btn';
+@import './components/main-title';
+@import './components/result-text';
+@import './components/disclaimer-text';
+@import './components/canvas';
+
+@import './containers/main-content';

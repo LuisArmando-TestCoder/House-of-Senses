@@ -1,17 +1,17 @@
-import  Canvas from './Canvas'
-import  Canvas3D from './Canvas3D'
-import  CanvasShader from './CanvasShader'
-import  Controls from './Controls'
-import  GlobalWrapper from './GlobalWrapper'
-import  Hello from './Hello'
 import  WheelParallelogramMenu from './WheelParallelogramMenu'
+import  CanvasShader from './CanvasShader'
+import  Canvas from './Canvas'
+import  Controls from './Controls'
+import  Hello from './Hello'
+import  GlobalWrapper from './GlobalWrapper'
+import  Canvas3D from './Canvas3D'
 
 export {
-   Canvas,
-   Canvas3D,
-   CanvasShader,
-   Controls,
-   GlobalWrapper,
-   Hello,
    WheelParallelogramMenu,
+   CanvasShader,
+   Canvas,
+   Controls,
+   Hello,
+   GlobalWrapper,
+   Canvas3D,
 }

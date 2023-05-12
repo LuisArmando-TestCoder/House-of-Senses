@@ -1,7 +1,7 @@
-import * as atoms from './atoms'
 import * as strings from './strings'
+import * as atoms from './atoms'
 
 export {
-   atoms,
    strings,
+   atoms,
 }
